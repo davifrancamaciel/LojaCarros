@@ -1,0 +1,261 @@
+﻿@using Utilidade
+
+@model PagedList.IPagedList<Dados.Entidade.Banner>
+
+@{
+    ViewBag.Title = "Listar todas as marcas";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/StyleTables.css" rel="stylesheet" />
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="min-height:50px">
+        <div class="form-group">
+            <label class="control-label col-md-10">Listar</label>
+            <div class="col-md-2">
+                <a class="btn btn-success" href="#primary" data-toggle="modal"><i class="fa fa-plus"></i> Novo Banner</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+
+
+
+        <div class="form-group">
+
+            <label class="control-label col-md-4">Nome:</label>
+            <div class="col-md-8">
+                @using (@Html.BeginForm("Index", "banners", FormMethod.Get))
+                {
+                    string valor = "";
+                    if (!string.IsNullOrEmpty(Request.QueryString["q"]))
+                    {
+                        valor = Request.QueryString["q"];
+                    }
+
+
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" id="q" placeholder="Ex. fiat" value="@valor">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                }
+                <div class="col-lg-6">
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Itens por página @Model.Count <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = ViewBag.SortOrder, cs = ViewBag.CurrentSort, pt = 5 })">5</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = ViewBag.SortOrder, cs = ViewBag.CurrentSort, pt = 10 })">10</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = ViewBag.SortOrder, cs = ViewBag.CurrentSort, pt = 15 })">15</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = ViewBag.SortOrder, cs = ViewBag.CurrentSort, pt = 20 })">20</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="method text-center">
+            <div class="row margin-0 list-header hidden-sm hidden-xs">
+                <div class="col-md-4"><div class="header"><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = "marca", cs = ViewBag.CurrentSort, pt = ViewBag.PaginaTamanho })">Nome <span id="orderMarca"></span></a></div></div>
+                <div class="col-md-2"><div class="header"><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = "data-inicio", cs = ViewBag.CurrentSort, pt = ViewBag.PaginaTamanho })">Inicio <span id="orderTipo"></span></a></div></div>
+                <div class="col-md-2"><div class="header"><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = "data-fim", cs = ViewBag.CurrentSort, pt = ViewBag.PaginaTamanho })">Fim <span id="orderTipo"></span></a></div></div>
+                <div class="col-md-2"><div class="header"><a href="@Url.Action(ViewBag.Action, new { q = ViewBag.Query, pagina = ViewBag.Pagina, so = "data-cadastro", cs = ViewBag.CurrentSort, pt = ViewBag.PaginaTamanho })">Cadastro <span id="orderTipo"></span></a></div></div>
+                <div class="col-md-2"><div class="header">Opções</div></div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row margin-0">
+                    <div class="col-md-4">
+                        <div class="cell">
+                            <div class="propertyname">
+                                <img class="img-responsive fancybox imagem center-block" src="~/arquivos/banner/normais/@item.Nome" alt="..." style="align-items:center">
+
+                                @if (DateTime.Now.Subtract(item.DataCadastro) <= TimeSpan.Parse("00:00:30.0000000"))
+                                {<br /><label class="label label-success">NOVO</label>}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="cell">
+                            <div class="propertyname">
+                                <strong> @item.DataInicio </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="cell">
+                            <div class="propertyname">
+                                <strong> @item.DataFim   </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="cell">
+                            <div class="propertyname">
+                                <strong> @item.DataCadastro </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="cell">
+
+                            <a class="btn btn-default lkbEditar"
+                               data-id="@item.Id"
+                               data-nome="@item.Nome"
+                               data-controller="Marca"
+                               data-target="#myModalCadastro"
+                               data-toggle="modal"
+                               title="Excluir">
+                                <span class='glyphicon glyphicon-pencil'></span>
+                            </a>
+                            &nbsp;
+                            <a class="btn btn-danger lkbExcluir"
+                               data-id="@item.Id"
+                               data-nome="@item.Nome"
+                               data-controller="Banners"
+                               data-target="#myModalExcluir"
+                               data-toggle="modal"
+                               title="Excluir">
+                                <span class='glyphicon glyphicon-trash'></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="row margin-0 list-header hidden-sm hidden-xs">
+            <div class="col-md-12">
+                <div class="footer">
+                    Total de itens por pagina:<span style="color:red">@Model.Count</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-footer">
+
+        @Html.Partial("_Paginador")
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-success">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1><i class="fa fa-thumbs-o-up"></i> Adicionar Banners</h1>
+            </div>
+            <div class="modal-body" style="min-height:150px">
+                <div class="form-group">
+
+                    <label class="control-label col-md-3">Data de início:</label>
+                    <div class="col-md-9">
+                        <input type="date" id="DataInicio" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">Data de início:</label>
+                    <div class="col-md-9">
+                        <input type="date" id="DataFim" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group" id="upload">
+
+
+                    <label class="control-label col-md-3">Selecione seus arquivos:</label>
+                    <div class="col-md-9">
+
+                        <div id="fileuploader">Upload</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("_ModalExcluir")
+
+@section scripts{
+    <script src="~/Scripts/filtrosHome.js"></script>
+
+
+    <link href="~/jquery-upload/css/uploadfile.css" rel="stylesheet" />
+    <script src="~/jquery-upload/js/jquery.form.js"></script>
+    <script src="~/jquery-upload/js/jquery.uploadfile.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            var pagina = $("#hddPagina").val();
+            var idVeiculo = 83;
+            console.log(idVeiculo);
+
+            if (idVeiculo !== "0") {
+                $('#upload').show();
+                $("#fileuploader").uploadFile({
+
+                    url: "/admin/Banners/Upload",
+                    fileName: "myfile",
+                    showPreview: false,
+                    previewHeight: "100px",
+                    previewWidth: "100px",
+                    acceptFiles: "image/*",
+                    autoSubmit: true,
+                    sequential: true,
+                    sequentialCount: 1,
+
+                    maxFileCountErrorStr: "Não foi gravado. O máximo de Arquivos por vez é:",
+                    //maxFileSize: 1048576,
+                    // maxFileSize: 2097152,//2mb
+                    sizeErrorStr: "Esta imagem ultrapassou o limite de: ",
+                    maxFileCount: 15,
+
+                    afterUploadAll: function (obj) {
+                        //if ($("#hddAcao").val() === 'editar') {
+                        //    var paginaRetorno = $("#hddPagina").val();
+                        //location.reload();
+                        //$(location).attr('href', '/admin/veiculos/editar/' + idVeiculo + "?p=" + pagina)
+                        //$(location).attr('href', '/painel/veiculos?pagina=' + paginaRetorno)
+
+                        //} else {
+                        //    location.reload();
+                        //    //$(location).attr('href', '/painel/veiculos')
+                        //    $(location).attr('href', '/veiculos')
+                        //}
+                    }
+                });
+
+            } else {
+                $('#upload').hide();
+            }
+
+        });
+    </script>
+}

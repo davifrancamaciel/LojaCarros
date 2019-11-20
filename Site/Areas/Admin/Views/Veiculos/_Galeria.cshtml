@@ -1,0 +1,37 @@
+﻿@using Utilidade
+
+@{
+    int pagina = 1;
+    if (Request.QueryString["p"] != null)
+    {
+        pagina = Convert.ToInt32(Request.QueryString["p"]);
+        if (pagina == 0) { pagina = 1; }
+    }
+}
+<div class="row">
+    <div style="margin:20px">
+        @foreach (var item in ViewBag.Arquivos)
+        {
+            <div class="col-md-3" style="margin-top:15px">
+
+                <div class="col-md-10">
+                    <img src="@ViewBag.DiretorioMin@item.Nome" alt="" class="img-responsive" data-id="@item.IdVeiculo">
+                </div>
+                <div class="col-md-2">
+                    @Html.ActionLinkDavi("<span class='glyphicon glyphicon-trash'></span>", "Excluir", "ExcluirArquivo", "Veiculos",
+                     voloresRota: new
+                     {
+                         id = item.IdArquivo,
+                         nome = item.Nome,
+                         idVeiculo = item.IdVeiculo,
+                         area = "Admin",
+                         controller = "Veiculos",
+                         pg = pagina
+                     },
+                        atributosHtml: new { @class = "btn btn-danger" })
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

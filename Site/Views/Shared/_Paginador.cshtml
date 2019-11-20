@@ -1,0 +1,54 @@
+﻿@using PagedList
+@using PagedList.Mvc
+<div class="text-center">
+    @Html.PagedListPager((IPagedList)Model, pagina => Url.Action(ViewBag.Action, new
+                    {
+                        tipo = ViewBag.TipoF,
+                        marca = ViewBag.MarcaF,
+                        ai = ViewBag.AnoInicioF,
+                        af = ViewBag.AnoFimF,
+                        pagina = pagina,
+                        pt = ViewBag.PaginaTamanho
+
+                    }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+</div>
+
+
+
+
+
+
+
+
+
+@*<div class="pagination pagination-right">
+
+        @if (Model.HasPreviousPage)
+        {
+            <a href="@Url.Action("Index", new { pagina = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }).ToLower()" class="btn btn-default">Primeira</a>
+            @Html.Raw(" ");
+            <a href="@Url.Action("Index", new { pagina = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }).ToLower()" class="btn btn-default">Anterior</a>
+        }
+        else
+        {
+            <a class="btn btn-default disabled">Primeira</a>
+            @Html.Raw(" ");
+            <a class="btn btn-default disabled">Anterior</a>
+        }
+
+        @Html.Raw(" ")<a class="btn btn-default disabled">Pág. @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</a>@Html.Raw(" ")
+
+        @if (Model.HasNextPage)
+        {
+            <a href="@Url.Action("Index", new { pagina = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }).ToLower()" class="btn btn-default">Próxima</a>
+            @Html.Raw(" ");
+            <a href="@Url.Action("Index", new { pagina = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }).ToLower()" class="btn btn-default">Última</a>
+        }
+        else
+        {
+            <a class="btn btn-default disabled">Próxima</a>
+            @Html.Raw(" ")
+            <a class="btn btn-default disabled">Última</a>
+        }
+
+    </div>*@

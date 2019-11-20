@@ -1,0 +1,54 @@
+﻿@model Site.Models.VeiculoVM
+@using Utilidade
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<input type="hidden" value="@Model.Pagina" id="hddPagina" />
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="min-height:70px">
+        <div class="form-group">
+            <div class="col-md-10">
+                @ViewBag.Title  Veiculo <span class="text-primary">@Model.IdVeiculo </span>
+                Cadastrado  em  @Model.DataCadastro
+            </div>
+            <div class="col-md-2">
+                @Html.Partial("UploadImagens")
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            @Html.Partial("_Galeria")
+            <hr />
+        </div>
+
+        @Html.Partial("_FormVeiculo")
+
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/scripts.js"></script>
+
+    <link href="~/jquery-upload/css/uploadfile.css" rel="stylesheet" />
+    <script src="~/jquery-upload/js/jquery.form.js"></script>
+    <script src="~/jquery-upload/js/jquery.uploadfile.js"></script>
+    <script src="~/Scripts/veiculo.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

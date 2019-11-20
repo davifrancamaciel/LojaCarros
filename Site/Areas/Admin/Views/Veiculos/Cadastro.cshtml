@@ -1,0 +1,36 @@
+﻿@model Site.Models.VeiculoVM
+@using Utilidade
+@{
+    ViewBag.Title = "Cadastro";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @ViewBag.Title
+    </div>
+    <div class="panel-body">
+
+        @Html.Partial("_FormVeiculo")
+
+    </div>
+</div>
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/scripts.js"></script>
+    <script src="~/Scripts/veiculo.js"></script>   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
